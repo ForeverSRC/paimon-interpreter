@@ -2,19 +2,7 @@ package ast
 
 import "github.com/ForeverSRC/paimon-interpreter/pkg/token"
 
-// Program AST的根结点
-type Program struct {
-	Statements []Statement
-}
-
-func (p *Program) TokenLiteral() string {
-	if len(p.Statements) > 0 {
-		return p.Statements[0].TokenLiteral()
-	}
-
-	return ""
-}
-
+// LetStatement let <标识符> = <表达式>;
 type LetStatement struct {
 	// Token token.LET 语法单元
 	Token token.Token

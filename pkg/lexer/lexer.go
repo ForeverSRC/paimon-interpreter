@@ -1,8 +1,8 @@
 package lexer
 
 import (
-	"github.com/ForeverSRC/paimon-interpreter/token"
-	strutil "github.com/ForeverSRC/paimon-interpreter/util/str"
+	"github.com/ForeverSRC/paimon-interpreter/pkg/token"
+	strutil "github.com/ForeverSRC/paimon-interpreter/pkg/util/str"
 )
 
 type Lexer struct {

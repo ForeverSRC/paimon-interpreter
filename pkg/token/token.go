@@ -8,6 +8,10 @@ type Token struct {
 	Literal string
 }
 
+func (tt TokenType) IsEOF() bool {
+	return tt == EOF
+}
+
 const (
 	ILLEGAL TokenType = "ILLEGAL"
 	EOF     TokenType = "EOF"
