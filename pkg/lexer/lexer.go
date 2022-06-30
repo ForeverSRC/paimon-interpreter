@@ -1,38 +1,43 @@
 package lexer
 
 import (
+	"unicode"
+
 	"github.com/ForeverSRC/paimon-interpreter/pkg/token"
-	strutil "github.com/ForeverSRC/paimon-interpreter/pkg/util/str"
 )
 
 type Lexer struct {
-	input string
+	input        string
+	inputRunes   []rune
+	inputRuneLen int
 	// position 输入字符串当前位置
 	position int
 	// readPosition 输入字符串的当前读取位置（当前字符后一个字符）
 	readPosition int
-	// ch 当前正在查看的字符
-	// 如果想要支持unicode，此处应该为rune，并且需要修改readChar的逻辑
-	ch byte
+	// ch 当前正在查看的unicode字符
+	ch rune
 }
 
 func New(input string) *Lexer {
 	l := &Lexer{
-		input: input,
+		input:      input,
+		inputRunes: []rune(input),
 	}
+
+	l.inputRuneLen = len(l.inputRunes)
 
 	l.readChar()
 
 	return l
 }
 
-// readChar 读取ascii 字符
+// readChar 读取字符
 func (l *Lexer) readChar() {
-	if l.readPosition >= len(l.input) {
+	if l.readPosition >= l.inputRuneLen {
 		// 0 ASCII code of NUL
 		l.ch = 0
 	} else {
-		l.ch = l.input[l.readPosition]
+		l.ch = l.inputRunes[l.readPosition]
 	}
 
 	l.position = l.readPosition
@@ -91,11 +96,11 @@ func (l *Lexer) NextToken() token.Token {
 		tok.Literal = ""
 		tok.Type = token.EOF
 	default:
-		if strutil.IsLetter(l.ch) {
+		if unicode.IsLetter(l.ch) {
 			tok.Literal = l.readIdentifier()
 			tok.Type = token.LookupIdent(tok.Literal)
 			return tok
-		} else if strutil.IsDigit(l.ch) {
+		} else if unicode.IsDigit(l.ch) {
 			tok.Type = token.INT
 			tok.Literal = l.readNumber()
 			return tok
@@ -110,32 +115,32 @@ func (l *Lexer) NextToken() token.Token {
 
 func (l *Lexer) readIdentifier() string {
 	pos := l.position
-	for strutil.IsLetter(l.ch) {
+	for unicode.IsLetter(l.ch) {
 		l.readChar()
 	}
 
-	return l.input[pos:l.position]
+	return string(l.inputRunes[pos:l.position])
 }
 
 func (l *Lexer) readNumber() string {
 	pos := l.position
-	for strutil.IsDigit(l.ch) {
+	for unicode.IsDigit(l.ch) {
 		l.readChar()
 	}
 
-	return l.input[pos:l.position]
+	return string(l.inputRunes[pos:l.position])
 }
 
 func (l *Lexer) skipWhitespace() {
-	for l.ch == ' ' || l.ch == '\t' || l.ch == '\n' || l.ch == '\r' {
+	for unicode.Is(unicode.White_Space, l.ch) {
 		l.readChar()
 	}
 }
 
-func (l *Lexer) peekChar() byte {
-	if l.readPosition >= len(l.input) {
+func (l *Lexer) peekChar() rune {
+	if l.readPosition >= l.inputRuneLen {
 		return 0
 	} else {
-		return l.input[l.readPosition]
+		return l.inputRunes[l.readPosition]
 	}
 }

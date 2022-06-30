@@ -62,7 +62,7 @@ var keywords = map[string]TokenType{
 	"else":   ELSE,
 }
 
-func New(tokenType TokenType, ch byte) Token {
+func New(tokenType TokenType, ch rune) Token {
 	return Token{
 		Type:    tokenType,
 		Literal: string(ch),

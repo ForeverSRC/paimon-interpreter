@@ -1,6 +1,10 @@
 package ast
 
-import "github.com/ForeverSRC/paimon-interpreter/pkg/token"
+import (
+	"bytes"
+
+	"github.com/ForeverSRC/paimon-interpreter/pkg/token"
+)
 
 // LetStatement let <标识符> = <表达式>;
 type LetStatement struct {
@@ -19,6 +23,22 @@ func (ls *LetStatement) TokenLiteral() string {
 func (ls *LetStatement) statementNode() {
 }
 
+func (ls *LetStatement) String() string {
+	var out bytes.Buffer
+
+	out.WriteString(ls.TokenLiteral() + " ")
+	out.WriteString(ls.Name.String())
+	out.WriteString(" = ")
+
+	if ls.Value != nil {
+		out.WriteString(ls.Value.String())
+	}
+
+	out.WriteString(";")
+
+	return out.String()
+}
+
 type Identifier struct {
 	// Token token.IDENT 语法单元
 	Token token.Token
@@ -30,4 +50,8 @@ func (i *Identifier) TokenLiteral() string {
 }
 
 func (i *Identifier) expressionNode() {
+}
+
+func (i *Identifier) String() string {
+	return i.Value
 }
