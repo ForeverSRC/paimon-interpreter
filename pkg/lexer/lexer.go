@@ -144,3 +144,10 @@ func (l *Lexer) peekChar() rune {
 		return l.inputRunes[l.readPosition]
 	}
 }
+
+func (l *Lexer) Reset() {
+	l.position = 0
+	l.readPosition = 0
+
+	l.readChar()
+}
