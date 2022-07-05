@@ -8,6 +8,7 @@ import (
 	"os/user"
 
 	"github.com/ForeverSRC/paimon-interpreter/cmd/consts"
+	"github.com/ForeverSRC/paimon-interpreter/pkg/evaluator"
 	"github.com/ForeverSRC/paimon-interpreter/pkg/lexer"
 	"github.com/ForeverSRC/paimon-interpreter/pkg/parser"
 )
@@ -17,7 +18,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	
+
 	fmt.Println(consts.PAIMON)
 	fmt.Printf(consts.Welcome, usr.Name)
 	Start(os.Stdin, os.Stdout)
@@ -55,6 +56,15 @@ func Start(in io.Reader, out io.Writer) {
 		io.WriteString(out, "Result program: \n")
 		io.WriteString(out, program.String())
 		io.WriteString(out, "\n")
+
+		evaluated := evaluator.Eval(program)
+		if evaluated != nil {
+			io.WriteString(out, consts.PartSep)
+			io.WriteString(out, "Result: \n")
+			io.WriteString(out, evaluated.Inspect())
+			io.WriteString(out, "\n")
+		}
+
 	}
 }
 
