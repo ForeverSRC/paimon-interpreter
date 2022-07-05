@@ -1,11 +1,21 @@
 package token
 
+import "fmt"
+
 // TokenType 词法单元，使用字符串会造成一定性能损失，但是具有可读性
 type TokenType string
 
 type Token struct {
 	Type    TokenType
 	Literal string
+}
+
+func (t Token) String() string {
+	return fmt.Sprintf("Type: [%v] Literal: [%v]", t.Type, t.Literal)
+}
+
+func (tt TokenType) IsEOF() bool {
+	return tt == EOF
 }
 
 const (
@@ -58,7 +68,7 @@ var keywords = map[string]TokenType{
 	"else":   ELSE,
 }
 
-func New(tokenType TokenType, ch byte) Token {
+func New(tokenType TokenType, ch rune) Token {
 	return Token{
 		Type:    tokenType,
 		Literal: string(ch),

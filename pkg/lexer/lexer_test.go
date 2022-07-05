@@ -3,7 +3,7 @@ package lexer
 import (
 	"testing"
 
-	"github.com/ForeverSRC/paimon-interpreter/token"
+	"github.com/ForeverSRC/paimon-interpreter/pkg/token"
 )
 
 func TestNextToken(t *testing.T) {
