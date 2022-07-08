@@ -13,8 +13,3 @@ func (b *Boolean) Type() Type {
 func (b *Boolean) Inspect() string {
 	return fmt.Sprintf("%t", b.Value)
 }
-
-var (
-	TRUE  = &Boolean{Value: true}
-	FALSE = &Boolean{Value: false}
-)

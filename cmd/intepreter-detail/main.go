@@ -10,6 +10,7 @@ import (
 	"github.com/ForeverSRC/paimon-interpreter/cmd/consts"
 	"github.com/ForeverSRC/paimon-interpreter/pkg/evaluator"
 	"github.com/ForeverSRC/paimon-interpreter/pkg/lexer"
+	"github.com/ForeverSRC/paimon-interpreter/pkg/object"
 	"github.com/ForeverSRC/paimon-interpreter/pkg/parser"
 )
 
@@ -57,7 +58,8 @@ func Start(in io.Reader, out io.Writer) {
 		io.WriteString(out, program.String())
 		io.WriteString(out, "\n")
 
-		evaluated := evaluator.Eval(program)
+		env := object.NewEnvironment()
+		evaluated := evaluator.Eval(program, env)
 		if evaluated != nil {
 			io.WriteString(out, consts.PartSep)
 			io.WriteString(out, "Result: \n")

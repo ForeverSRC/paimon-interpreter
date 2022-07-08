@@ -8,7 +8,9 @@ type Object interface {
 }
 
 const (
-	IntegerObj Type = "Integer"
-	BooleanOjb Type = "Boolean"
-	NullObj    Type = "Null"
+	IntegerObj   Type = "Integer"
+	BooleanOjb   Type = "Boolean"
+	NullObj      Type = "Null"
+	ReturnValObj Type = "ReturnValue"
+	ErrorObj     Type = "Error"
 )
