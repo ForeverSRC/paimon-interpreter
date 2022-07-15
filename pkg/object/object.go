@@ -13,4 +13,5 @@ const (
 	NullObj      Type = "Null"
 	ReturnValObj Type = "ReturnValue"
 	ErrorObj     Type = "Error"
+	FuncObj      Type = "Function"
 )
